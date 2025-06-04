@@ -10,12 +10,33 @@ public class LLMDbContext:DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Thread>()
             .Property(b => b.CreatedAt)
             .HasDefaultValueSql("GETDATE()"); // SQL Server
+        
+        modelBuilder.Entity<Prompt>()
+            .Property(b => b.CreatedAt)
+            .HasDefaultValueSql("GETDATE()"); // SQL Server
+        
+        modelBuilder.Entity<Thread>()
+            .HasOne(t => t.Model)
+            .WithMany()
+            .HasForeignKey(t => t.ModelId)
+            .OnDelete(DeleteBehavior.Restrict); 
+
+        modelBuilder.Entity<Thread>()
+            .HasOne(t => t.User)
+            .WithMany()
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Restrict); 
+
     }
     
     public DbSet<ModelType> ModelTypes { get; set; }
     public DbSet<Model> Models { get; set; }
     public DbSet<Thread> Threads { get; set; }
+    public DbSet<Prompt> Prompts { get; set; }
+    public DbSet<User> Users { get; set; }
 }

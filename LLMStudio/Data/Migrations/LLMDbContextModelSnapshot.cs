@@ -83,6 +83,42 @@ namespace LLMStudio.Data.Migrations
                     b.ToTable("model_types");
                 });
 
+            modelBuilder.Entity("LLMStudio.Data.Models.Prompt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("PromptText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("prompt");
+
+                    b.Property<string>("Response")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("response");
+
+                    b.Property<int>("ThreadId")
+                        .HasColumnType("int")
+                        .HasColumnName("thread_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadId");
+
+                    b.ToTable("prompts");
+                });
+
             modelBuilder.Entity("LLMStudio.Data.Models.Thread", b =>
                 {
                     b.Property<int>("Id")
@@ -102,6 +138,9 @@ namespace LLMStudio.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("model_id");
 
+                    b.Property<int?>("ModelId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
@@ -111,14 +150,21 @@ namespace LLMStudio.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("ModelId1");
 
                     b.HasIndex("Title")
                         .IsUnique();
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("threads");
                 });
@@ -161,28 +207,62 @@ namespace LLMStudio.Data.Migrations
                     b.Navigation("Provider");
                 });
 
-            modelBuilder.Entity("LLMStudio.Data.Models.Thread", b =>
+            modelBuilder.Entity("LLMStudio.Data.Models.Prompt", b =>
                 {
-                    b.HasOne("LLMStudio.Data.Models.ModelType", "Model")
-                        .WithMany()
-                        .HasForeignKey("ModelId")
+                    b.HasOne("LLMStudio.Data.Models.Thread", "Thread")
+                        .WithMany("Prompts")
+                        .HasForeignKey("ThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Thread");
+                });
+
+            modelBuilder.Entity("LLMStudio.Data.Models.Thread", b =>
+                {
+                    b.HasOne("LLMStudio.Data.Models.Model", "Model")
+                        .WithMany()
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LLMStudio.Data.Models.Model", null)
+                        .WithMany("Threads")
+                        .HasForeignKey("ModelId1");
 
                     b.HasOne("LLMStudio.Data.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("LLMStudio.Data.Models.User", null)
+                        .WithMany("Threads")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Model");
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("LLMStudio.Data.Models.Model", b =>
+                {
+                    b.Navigation("Threads");
+                });
+
             modelBuilder.Entity("LLMStudio.Data.Models.ModelType", b =>
                 {
                     b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("LLMStudio.Data.Models.Thread", b =>
+                {
+                    b.Navigation("Prompts");
+                });
+
+            modelBuilder.Entity("LLMStudio.Data.Models.User", b =>
+                {
+                    b.Navigation("Threads");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,4 +20,6 @@ public class User
     [Required]
     [Column("password")]
     public string Password { get; set; }
+    
+    public List<Thread> Threads { get; set; } = new();
 }

@@ -43,4 +43,6 @@ public class Model
 
     [ForeignKey("ModelTypeId")]
     public ModelType Provider { get; set; } = null!;
+    
+    public List<Thread> Threads { get; set; } = new();
 }
