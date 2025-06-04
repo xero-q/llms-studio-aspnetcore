@@ -1,0 +1,6 @@
+@LLMStudio_HostAddress = http://localhost:5233
+
+GET {{LLMStudio_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
