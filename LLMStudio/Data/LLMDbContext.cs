@@ -31,7 +31,19 @@ public class LLMDbContext:DbContext
             .WithMany()
             .HasForeignKey(t => t.UserId)
             .OnDelete(DeleteBehavior.Restrict); 
+        
+        modelBuilder.Entity<Thread>()
+            .HasOne(t => t.Model)
+            .WithMany(m => m.Threads)
+            .HasForeignKey(t => t.ModelId)
+            .OnDelete(DeleteBehavior.Cascade); 
 
+        // THREAD ↔ USER
+        modelBuilder.Entity<Thread>()
+            .HasOne(t => t.User)
+            .WithMany(u => u.Threads)
+            .HasForeignKey(t => t.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
     
     public DbSet<ModelType> ModelTypes { get; set; }

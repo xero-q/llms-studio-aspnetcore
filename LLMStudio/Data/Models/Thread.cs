@@ -25,14 +25,12 @@ public class Thread
     [Column("model_id")]
     public int ModelId { get; set; }
 
-    [ForeignKey("ModelId")]
     public Model Model { get; set; } = null!;
-    
+
     [Required]
     [Column("user_id")]
     public int UserId { get; set; }
 
-    [ForeignKey("UserId")]
     public User User { get; set; } = null!;
     
     public List<Prompt> Prompts { get; set; } = new();

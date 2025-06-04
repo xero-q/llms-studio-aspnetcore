@@ -70,29 +70,17 @@ namespace LLMStudio.Data.Migrations
                     title = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     created_at = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     model_id = table.Column<int>(type: "int", nullable: false),
-                    user_id = table.Column<int>(type: "int", nullable: false),
-                    ModelId1 = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<int>(type: "int", nullable: true)
+                    user_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_threads", x => x.id);
                     table.ForeignKey(
-                        name: "FK_threads_models_ModelId1",
-                        column: x => x.ModelId1,
-                        principalTable: "models",
-                        principalColumn: "id");
-                    table.ForeignKey(
                         name: "FK_threads_models_model_id",
                         column: x => x.model_id,
                         principalTable: "models",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_threads_users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "users",
-                        principalColumn: "id");
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_threads_users_user_id",
                         column: x => x.user_id,
@@ -145,11 +133,6 @@ namespace LLMStudio.Data.Migrations
                 column: "model_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_threads_ModelId1",
-                table: "threads",
-                column: "ModelId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_threads_title",
                 table: "threads",
                 column: "title",
@@ -159,11 +142,6 @@ namespace LLMStudio.Data.Migrations
                 name: "IX_threads_user_id",
                 table: "threads",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_threads_UserId1",
-                table: "threads",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_username",

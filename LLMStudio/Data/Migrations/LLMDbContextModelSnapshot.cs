@@ -138,9 +138,6 @@ namespace LLMStudio.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("model_id");
 
-                    b.Property<int?>("ModelId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)")
@@ -150,21 +147,14 @@ namespace LLMStudio.Data.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
-
-                    b.HasIndex("ModelId1");
 
                     b.HasIndex("Title")
                         .IsUnique();
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("threads");
                 });
@@ -221,24 +211,16 @@ namespace LLMStudio.Data.Migrations
             modelBuilder.Entity("LLMStudio.Data.Models.Thread", b =>
                 {
                     b.HasOne("LLMStudio.Data.Models.Model", "Model")
-                        .WithMany()
+                        .WithMany("Threads")
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LLMStudio.Data.Models.Model", null)
-                        .WithMany("Threads")
-                        .HasForeignKey("ModelId1");
-
                     b.HasOne("LLMStudio.Data.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Threads")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("LLMStudio.Data.Models.User", null)
-                        .WithMany("Threads")
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("Model");
 
