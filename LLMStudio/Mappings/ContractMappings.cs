@@ -11,16 +11,24 @@ public static class ContractMappings
         return new ModelType
         {
             Name = request.Name
-
         };
     }
     
-    public static CreateModelTypeResponse MapToResponse(this ModelType modelType)
+    public static ModelTypeResponse MapToResponse(this ModelType modelType)
     {
-        return new CreateModelTypeResponse
+        return new ModelTypeResponse
         {
             Id = modelType.Id,
             Name = modelType.Name
         };
     }
+    
+    public static ModelTypesResponse MapToResponse(this IEnumerable<ModelType> modelTypes)
+    {
+        return new ModelTypesResponse
+        {
+            Items = modelTypes.Select(MapToResponse)
+        };
+    }
+    
 }

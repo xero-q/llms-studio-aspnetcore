@@ -1,6 +1,6 @@
 namespace LLMStudio.Contracts.Responses;
 
-public class CreateModelTypeResponse
+public class ModelTypeResponse
 {
     public required int Id { get; init; }
     

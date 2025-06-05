@@ -24,5 +24,14 @@ public class ModelTypesController : ControllerBase
         // return CreatedAtAction(nameof(Get), new { id = movie.Id }, movieResponse);
         return Created();
     }
+
+    [HttpGet(ApiEndpoints.ModelTypes.GetAll)]
+    public async Task<ActionResult<ModelType>> GetAllModelTypes()
+    {
+        var modelTypes = await _modelTypeRepository.GetAllAsync();
+        var response = modelTypes.MapToResponse();
+        
+        return Ok(response);
+    }
 }
 
