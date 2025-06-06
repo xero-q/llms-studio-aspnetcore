@@ -1,3 +1,4 @@
+using FluentValidation;
 using LLMStudio.Data;
 using LLMStudio.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -7,14 +8,17 @@ namespace LLMStudio.Repositories;
 public class ModelTypeRepository:IModelTypeRepository
 {
     private readonly LLMDbContext _context;
+    private readonly IValidator<ModelType> _validator;
 
-    public ModelTypeRepository(LLMDbContext context)
+    public ModelTypeRepository(LLMDbContext context, IValidator<ModelType> validator)
     {
         _context = context;
+        _validator = validator;
     }
     
     public async Task<bool> CreateAsync(ModelType modelType)
     {
+        await _validator.ValidateAndThrowAsync(modelType);
         _context.ModelTypes.Add(modelType);
         var result = await _context.SaveChangesAsync();
         return result > 0;

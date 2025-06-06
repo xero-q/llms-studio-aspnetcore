@@ -1,3 +1,4 @@
+using FluentValidation;
 using LLMStudio.Data;
 using LLMStudio.Data.Models;
 using LLMStudio.Helpers;
@@ -8,14 +9,17 @@ namespace LLMStudio.Repositories;
 public class UserRepository:IUserRepository
 {
     private readonly LLMDbContext _context;
+    private readonly IValidator<User> _validator;
 
-    public UserRepository(LLMDbContext context)
+    public UserRepository(LLMDbContext context, IValidator<User> validator)
     {
         _context = context;
+        _validator = validator;
     }
     
     public async Task<bool> CreateAsync(User user)
     {
+        await _validator.ValidateAndThrowAsync(user);
         var hashedUser = new User
         {
             Id = user.Id,
