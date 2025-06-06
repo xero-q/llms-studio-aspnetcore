@@ -31,4 +31,22 @@ public static class ContractMappings
         };
     }
     
+    public static User MapToUser(this CreateUserRequest request)
+    {
+        return new User
+        {
+            Username = request.Username,
+            Password = request.Password
+        };
+    }
+    
+    public static UserResponse MapToResponse(this User user)
+    {
+        return new UserResponse
+        {
+            Id = user.Id,
+            Username = user.Username
+        };
+    }
+    
 }

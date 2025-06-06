@@ -5,6 +5,8 @@ namespace LLMStudio.Repositories;
 public interface IUserRepository
 {
     Task<bool> CreateAsync(User user);
+
+    Task<bool> UsernameExistsAsync(string username);
     
     Task<User?> GetByIdAsync(int id);
    

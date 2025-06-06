@@ -20,8 +20,8 @@ public class ModelTypesController : ControllerBase
     {
         var modelType = request.MapToModelType();
         await _modelTypeRepository.CreateAsync(modelType);
-        var movieResponse = modelType.MapToResponse();
-        // return CreatedAtAction(nameof(Get), new { id = movie.Id }, movieResponse);
+        var modelTypeResponse = modelType.MapToResponse();
+        // return CreatedAtAction(nameof(Get), new { id = modelType.Id }, modelTypeResponse);
         return Created();
     }
 
