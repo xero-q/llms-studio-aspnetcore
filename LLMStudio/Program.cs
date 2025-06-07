@@ -43,6 +43,14 @@ builder.Services.AddDbContext<LLMDbContext>(options =>
 
 var app = builder.Build();
 
+
+// Run migrations here:
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<LLMDbContext>();
+    db.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
