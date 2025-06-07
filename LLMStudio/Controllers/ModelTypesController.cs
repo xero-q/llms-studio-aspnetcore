@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using LLMStudio.Data.Models;
 using LLMStudio.Mappings;
 using LLMStudio.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
+[Authorize]
 public class ModelTypesController : ControllerBase
 {
     private readonly IModelTypeRepository _modelTypeRepository;
@@ -21,8 +23,7 @@ public class ModelTypesController : ControllerBase
         var modelType = request.MapToModelType();
         await _modelTypeRepository.CreateAsync(modelType);
         var modelTypeResponse = modelType.MapToResponse();
-        // return CreatedAtAction(nameof(Get), new { id = modelType.Id }, modelTypeResponse);
-        return Created();
+        return CreatedAtAction(nameof(GetModelType), new { id = modelType.Id }, modelTypeResponse);
     }
 
     [HttpGet(ApiEndpoints.ModelTypes.GetAll)]
@@ -30,6 +31,21 @@ public class ModelTypesController : ControllerBase
     {
         var modelTypes = await _modelTypeRepository.GetAllAsync();
         var response = modelTypes.MapToResponse();
+        
+        return Ok(response);
+    }
+    
+    [HttpGet(ApiEndpoints.ModelTypes.Get)]
+    public async Task<ActionResult<ModelType>> GetModelType([FromRoute] int id)
+    {
+        var modelType = await _modelTypeRepository.GetByIdAsync(id);
+
+        if (modelType == null)
+        {
+            return NotFound();
+        }
+        
+        var response = modelType.MapToResponse();
         
         return Ok(response);
     }
