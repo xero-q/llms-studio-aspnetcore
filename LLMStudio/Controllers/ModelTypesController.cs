@@ -8,20 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Authorize]
-public class ModelTypesController : ControllerBase
+public class ModelTypesController(IModelTypeRepository modelTypeRepository) : ControllerBase
 {
-    private readonly IModelTypeRepository _modelTypeRepository;
-
-    public ModelTypesController(IModelTypeRepository modelTypeRepository)
-    {
-        _modelTypeRepository = modelTypeRepository;
-    }
-    
     [HttpPost(ApiEndpoints.ModelTypes.Create)]
     public async Task<ActionResult<ModelType>> CreateModelType([FromBody] CreateModelTypeRequest request)
     {
         var modelType = request.MapToModelType();
-        await _modelTypeRepository.CreateAsync(modelType);
+        await modelTypeRepository.CreateAsync(modelType);
         var modelTypeResponse = modelType.MapToResponse();
         return CreatedAtAction(nameof(GetModelType), new { id = modelType.Id }, modelTypeResponse);
     }
@@ -29,7 +22,7 @@ public class ModelTypesController : ControllerBase
     [HttpGet(ApiEndpoints.ModelTypes.GetAll)]
     public async Task<ActionResult<ModelType>> GetAllModelTypes()
     {
-        var modelTypes = await _modelTypeRepository.GetAllAsync();
+        var modelTypes = await modelTypeRepository.GetAllAsync();
         var response = modelTypes.MapToResponse();
         
         return Ok(response);
@@ -38,7 +31,7 @@ public class ModelTypesController : ControllerBase
     [HttpGet(ApiEndpoints.ModelTypes.Get)]
     public async Task<ActionResult<ModelType>> GetModelType([FromRoute] int id)
     {
-        var modelType = await _modelTypeRepository.GetByIdAsync(id);
+        var modelType = await modelTypeRepository.GetByIdAsync(id);
 
         if (modelType == null)
         {

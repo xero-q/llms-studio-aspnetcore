@@ -7,25 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace LLMStudio.Controllers;
 
 [ApiController]
-public class UsersController:ControllerBase
+public class UsersController(IUserRepository userRepository) : ControllerBase
 {
-    private readonly IUserRepository _userRepository;
-
-    public UsersController(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
-    
     [HttpPost(ApiEndpoints.Users.Create)]
     public async Task<ActionResult<User>> RegisterUser([FromBody] CreateUserRequest request)
     {
-        if (await _userRepository.UsernameExistsAsync(request.Username))
+        if (await userRepository.UsernameExistsAsync(request.Username))
         {
             return BadRequest(new { error = ErrorMessages.UsernameAlreadyExists });
         }
         
         var user = request.MapToUser();
-        await _userRepository.CreateAsync(user);
+        await userRepository.CreateAsync(user);
         var userResponse = user.MapToResponse();
         // TODO: return CreatedAtAction(nameof(Get), new { id = user.Id }, userResponse);
         return Created();

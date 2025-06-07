@@ -2,8 +2,10 @@ namespace LLMStudio;
 
 public static class ErrorMessages
 {
-    public static readonly string ModelTypeNameNotEmpty = "ModelType's Name can not be empty.";
-    public static readonly string UsernameAlreadyExists = "Username already taken.";
-    public static readonly string UsernameNotEmpty = "Username can not be empty.";
-    public static readonly string PasswordNotEmpty = "Password can not be empty.";
+    public const string ModelTypeNameNotEmpty = "ModelType's Name can not be empty.";
+    public const string UsernameAlreadyExists = "Username already taken.";
+    public const string UsernameNotEmpty = "Username can not be empty.";
+    public const string PasswordNotEmpty = "Password can not be empty.";
+    public const string TemperatureBetweenZeroOne = "Temperature must be between 0 and 1.";
+    public const string ModelTypeNotFound = "Model type not found.";
 }

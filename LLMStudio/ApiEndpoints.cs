@@ -15,6 +15,17 @@ public static class ApiEndpoints
         public const string Delete = $"{Base}/{{id:int}}";
     }
     
+    public static class Models
+    {
+        private const string Base = $"{ApiBase}/models";
+
+        public const string Create = Base;
+        public const string Get = $"{Base}/{{id:int}}";
+        public const string GetAll = Base;
+        public const string Update = $"{Base}/{{id:int}}";
+        public const string Delete = $"{Base}/{{id:int}}";
+    }
+    
     public static class Users
     {
         private const string Base = $"{ApiBase}/users";

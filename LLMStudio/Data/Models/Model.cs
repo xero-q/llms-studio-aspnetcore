@@ -19,20 +19,8 @@ public class Model
     [Column("identifier")]
     public string Identifier { get; set; }
 
-    private double _temperature = 0.7;
-
-    [Required]
-    [Column("temperature")]
-    public double Temperature
-    {
-        get => _temperature;
-        set
-        {
-            if (value < 0 || value > 1)
-                throw new ArgumentOutOfRangeException(nameof(Temperature), "Temperature must be between 0 and 1.");
-            _temperature = value;
-        }
-    }
+    [Required] [Column("temperature")] public double Temperature { get; set; } = 0.7;
+   
     
     [Column("environment_variable")]
     public string EnvironmentVariable { get; set; }

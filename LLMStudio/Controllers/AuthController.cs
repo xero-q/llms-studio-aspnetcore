@@ -7,27 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace LLMStudio.Controllers;
 
 [ApiController]
-public class AuthController:ControllerBase
+public class AuthController(IAuthenticationService authenticationService) : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
-
-    public AuthController(IAuthenticationService authenticationService)
-    {
-        _authenticationService = authenticationService;
-    }
-    
-    
     [HttpPost(ApiEndpoints.Auth.Login)]
     public async Task<ActionResult<LoginResponse>> LoginUser([FromBody] LoginRequest request)
     {
-        var userPasswordCorrect = await _authenticationService.Authenticate(request.Username, request.Password);
+        var userPasswordCorrect = await authenticationService.Authenticate(request.Username, request.Password);
 
         if (!userPasswordCorrect)
         {
             return Unauthorized();
         }
         
-        var token = _authenticationService.GenerateToken(request.Username);
+        var token = authenticationService.GenerateToken(request.Username);
 
         var response = new LoginResponse
         {

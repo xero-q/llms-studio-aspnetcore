@@ -10,6 +10,7 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IModelRepository, ModelRepository>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
         

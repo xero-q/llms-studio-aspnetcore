@@ -49,4 +49,29 @@ public static class ContractMappings
         };
     }
     
+    public static Model MapToModel(this CreateModelRequest request)
+    {
+        return new Model
+        {
+            Name = request.Name,
+            Identifier = request.Identifier,
+            Temperature = request.Temperature,
+            ModelTypeId = request.ModelTypeId,
+            EnvironmentVariable = request.EnvironmentVariable
+        };
+    }
+    
+    public static ModelResponse MapToResponse(this Model model)
+    {
+        return new ModelResponse
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Identifier = model.Identifier,
+            Temperature = model.Temperature,
+            ModelTypeId = model.ModelTypeId,
+            EnvironmentVariable = model.EnvironmentVariable
+        };
+    }
+    
 }
