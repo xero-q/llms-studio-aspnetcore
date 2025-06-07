@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using LLMStudio.Repositories;
+using LLMStudio.Services;
 
 namespace LLMStudio.Extensions;
     
@@ -9,7 +10,9 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddScoped<IModelTypeRepository, ModelTypeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddValidatorsFromAssemblyContaining<IApplicationMarker>(ServiceLifetime.Singleton);
+        
         return services;
     } 
 }

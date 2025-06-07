@@ -42,6 +42,11 @@ public class UserRepository:IUserRepository
         throw new NotImplementedException();
     }
 
+    public async Task<User?> GetByUsernameAsync(string username)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
+    }
+
     public async Task<IEnumerable<User>> GetAllAsync()
     {
         throw new NotImplementedException();

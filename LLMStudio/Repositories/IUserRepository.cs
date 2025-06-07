@@ -9,6 +9,8 @@ public interface IUserRepository
     Task<bool> UsernameExistsAsync(string username);
     
     Task<User?> GetByIdAsync(int id);
+    
+    Task<User?> GetByUsernameAsync(string username);
    
     Task<IEnumerable<User>> GetAllAsync();
     
