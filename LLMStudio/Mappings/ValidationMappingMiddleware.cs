@@ -17,7 +17,7 @@ public class ValidationMappingMiddleware(RequestDelegate next)
             {
                 Errors = ex.Errors.Select(x => new ValidationResponse
                 {
-                    PropertyName = x.PropertyName,
+                    Field = x.PropertyName,
                     Message = x.ErrorMessage
                 })
             };

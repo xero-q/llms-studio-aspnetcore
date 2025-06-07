@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace LLMStudio.Controllers;
 
 [ApiController]
-[Authorize]
 public class ModelsController(IModelTypeRepository modelTypeRepository, IModelRepository modelRepository)
     : ControllerBase
 {
