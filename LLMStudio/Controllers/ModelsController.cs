@@ -13,6 +13,7 @@ public class ModelsController(IModelTypeRepository modelTypeRepository, IModelRe
     : ControllerBase
 {
     [HttpPost(ApiEndpoints.Models.Create)]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateModelRequest request)
     {
         // Verify ModelType exists

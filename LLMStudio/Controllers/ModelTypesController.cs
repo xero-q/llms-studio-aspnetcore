@@ -7,10 +7,10 @@ using LLMStudio.Repositories;
 using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
-[Authorize]
 public class ModelTypesController(IModelTypeRepository modelTypeRepository) : ControllerBase
 {
     [HttpPost(ApiEndpoints.ModelTypes.Create)]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateModelTypeRequest request)
     {
         var modelType = request.MapToModelType();
