@@ -5,11 +5,15 @@ using LLMStudio.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddApplication();
+
+DotNetEnv.Env.Load();
+builder.Configuration.AddEnvironmentVariables();
 
 var jwtConfig = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(options =>
