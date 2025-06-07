@@ -14,11 +14,11 @@ public class LLMDbContext:DbContext
         
         modelBuilder.Entity<Thread>()
             .Property(b => b.CreatedAt)
-            .HasDefaultValueSql("GETDATE()"); // SQL Server
+            .HasDefaultValueSql("NOW()"); // Postgre
         
         modelBuilder.Entity<Prompt>()
             .Property(b => b.CreatedAt)
-            .HasDefaultValueSql("GETDATE()"); // SQL Server
+            .HasDefaultValueSql("NOW()"); // Postgre
         
         modelBuilder.Entity<Thread>()
             .HasOne(t => t.Model)
