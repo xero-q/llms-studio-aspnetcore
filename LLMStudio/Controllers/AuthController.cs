@@ -10,7 +10,7 @@ namespace LLMStudio.Controllers;
 public class AuthController(IAuthenticationService authenticationService) : ControllerBase
 {
     [HttpPost(ApiEndpoints.Auth.Login)]
-    public async Task<ActionResult<LoginResponse>> LoginUser([FromBody] LoginRequest request)
+    public async Task<IActionResult> LoginUser([FromBody] LoginRequest request)
     {
         var userPasswordCorrect = await authenticationService.Authenticate(request.Username, request.Password);
 

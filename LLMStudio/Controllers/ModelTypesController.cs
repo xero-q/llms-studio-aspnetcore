@@ -11,16 +11,16 @@ using Microsoft.AspNetCore.Authorization;
 public class ModelTypesController(IModelTypeRepository modelTypeRepository) : ControllerBase
 {
     [HttpPost(ApiEndpoints.ModelTypes.Create)]
-    public async Task<ActionResult<ModelType>> CreateModelType([FromBody] CreateModelTypeRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateModelTypeRequest request)
     {
         var modelType = request.MapToModelType();
         await modelTypeRepository.CreateAsync(modelType);
         var modelTypeResponse = modelType.MapToResponse();
-        return CreatedAtAction(nameof(GetModelType), new { id = modelType.Id }, modelTypeResponse);
+        return CreatedAtAction(nameof(Get), new { id = modelType.Id }, modelTypeResponse);
     }
 
     [HttpGet(ApiEndpoints.ModelTypes.GetAll)]
-    public async Task<ActionResult<ModelType>> GetAllModelTypes()
+    public async Task<IActionResult> GetAll()
     {
         var modelTypes = await modelTypeRepository.GetAllAsync();
         var response = modelTypes.MapToResponse();
@@ -29,7 +29,7 @@ public class ModelTypesController(IModelTypeRepository modelTypeRepository) : Co
     }
     
     [HttpGet(ApiEndpoints.ModelTypes.Get)]
-    public async Task<ActionResult<ModelType>> GetModelType([FromRoute] int id)
+    public async Task<IActionResult> Get([FromRoute] int id)
     {
         var modelType = await modelTypeRepository.GetByIdAsync(id);
 

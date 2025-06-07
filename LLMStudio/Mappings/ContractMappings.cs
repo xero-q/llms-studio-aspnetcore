@@ -74,4 +74,12 @@ public static class ContractMappings
         };
     }
     
+    public static ModelsResponse MapToResponse(this IEnumerable<Model> models)
+    {
+        return new ModelsResponse
+        {
+            Items = models.Select(MapToResponse)
+        };
+    }
+    
 }

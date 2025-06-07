@@ -1,4 +1,5 @@
 using LLMStudio.Contracts.Requests;
+using LLMStudio.Contracts.Responses;
 using LLMStudio.Repositories;
 using LLMStudio.Data.Models;
 using LLMStudio.Mappings;
@@ -12,7 +13,7 @@ public class ModelsController(IModelTypeRepository modelTypeRepository, IModelRe
     : ControllerBase
 {
     [HttpPost(ApiEndpoints.Models.Create)]
-    public async Task<ActionResult<Model>> CreateAsync([FromBody] CreateModelRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateModelRequest request)
     {
         // Verify ModelType exists
         var modelType = await modelTypeRepository.GetByIdAsync(request.ModelTypeId);
@@ -27,5 +28,14 @@ public class ModelsController(IModelTypeRepository modelTypeRepository, IModelRe
         var modelResponse = model.MapToResponse();
         return Created();
         //TODO return CreatedAtAction(nameof(GetModelType), new { id = modelType.Id }, modelTypeResponse);
+    }
+
+    [HttpGet(ApiEndpoints.Models.GetAll)]
+    public async Task<IActionResult> GetAll()
+    {
+        var models = await modelRepository.GetAllAsync();
+        var response = models.MapToResponse();
+        
+        return Ok(response);
     }
 }

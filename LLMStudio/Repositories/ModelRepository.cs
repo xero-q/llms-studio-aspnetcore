@@ -1,6 +1,7 @@
 using FluentValidation;
 using LLMStudio.Data;
 using LLMStudio.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LLMStudio.Repositories;
 
@@ -30,7 +31,7 @@ public class ModelRepository:IModelRepository
 
     public async Task<IEnumerable<Model>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Models.AsNoTracking().ToListAsync();
     }
 
     public async Task<bool> UpdateAsync(Model modelType)
